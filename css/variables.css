@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Design Tokens & Editorial System Variables
+   Theme: Serious Data Science & Editorial Analytics Publication
+   Aesthetic: The Pudding, Financial Times, Nature Reports, FiveThirtyEight
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Light Mode: Editorial Newsprint / Archival Ink */
+  --bg-canvas: #f8f7f4;          /* Warm archival paper tone */
+  --bg-surface: #ffffff;         /* Crisp surface for figures and data exhibits */
+  --bg-subtle: #f1efe9;          /* Subdued neutral for code and metadata */
+  --bg-contrast: #111418;        /* Near black */
+  
+  --text-primary: #15181c;       /* Deep charcoal ink */
+  --text-secondary: #3b424d;     /* High-legibility long-form body copy */
+  --text-muted: #646d7c;         /* Eyebrows, methodology captions, metadata */
+  --text-faint: #8f98a6;         /* Footnotes, table sub-captions, source citations */
+  --text-inverse: #ffffff;
+
+  /* Editorial Borders & Rules */
+  --border-rule: #e2ded5;        /* Primary hairline divider rule */
+  --border-subtle: #ede9e1;      /* Secondary inner table / panel divider */
+  --border-strong: #b8b3a5;      /* Heavy rule for figure bounds and section splits */
+
+  /* Data Science Analytical Accent: Single Authoritative Oxford Navy / Cobalt */
+  --accent-primary: #1e40af;
+  --accent-primary-hover: #1e3a8a;
+  --accent-primary-subtle: #eff6ff;
+  --accent-primary-border: #bfdbfe;
+
+  /* Data Focus & Highlight: Single Analytical Ochre / Amber (Strictly for May–June Peak) */
+  --highlight-focus: #b45309;
+  --highlight-focus-hover: #92400e;
+  --highlight-subtle: #fffbeb;
+  --highlight-border: #fde68a;
+
+  /* Secondary Neutral Tone for Charts & Baseline Comparisons */
+  --chart-baseline: #94a3b8;
+  --chart-baseline-light: #cbd5e1;
+  --chart-grid: rgba(0, 0, 0, 0.05);
+
+  /* Provenance / Status Tags */
+  --tag-empirical-bg: #f0fdf4;
+  --tag-empirical-text: #166534;
+  --tag-empirical-border: #bbf7d0;
+
+  --tag-inference-bg: #faf5ff;
+  --tag-inference-text: #6b21a8;
+  --tag-inference-border: #e9d5ff;
+
+  --tag-neutral-bg: #f3f4f6;
+  --tag-neutral-text: #374151;
+  --tag-neutral-border: #e5e7eb;
+
+  /* Typography Scales */
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", "Charter", "Georgia", "Cambria", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* Layout Spacing */
+  --space-3xs: 0.125rem; /* 2px */
+  --space-2xs: 0.25rem;  /* 4px */
+  --space-xs: 0.5rem;    /* 8px */
+  --space-sm: 0.75rem;   /* 12px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4.5rem;   /* 72px */
+  --space-4xl: 6rem;     /* 96px */
+
+  /* Layout Max Widths */
+  --max-width-dossier: 1200px;
+  --max-width-editorial: 1140px;
+  --max-width-narrative: 740px;
+
+  /* Clean Architectural Radii: Strictly 0 to 4px (No bubbly pill shapes!) */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+
+  /* Minimalist Shadow: Only fine paper depth, no blurry SaaS floats */
+  --shadow-editorial: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   Dark Mode: Archival Slate & Deep Night
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg-canvas: #0c0f14;
+  --bg-surface: #141820;
+  --bg-subtle: #1a202a;
+  --bg-contrast: #f0f2f5;
+
+  --text-primary: #f0f2f5;
+  --text-secondary: #c0c6d0;
+  --text-muted: #858e9c;
+  --text-faint: #5a6372;
+  --text-inverse: #0c0f14;
+
+  --border-rule: #232a35;
+  --border-subtle: #1a202a;
+  --border-strong: #374151;
+
+  --accent-primary: #60a5fa;
+  --accent-primary-hover: #93c5fd;
+  --accent-primary-subtle: rgba(96, 165, 250, 0.1);
+  --accent-primary-border: rgba(96, 165, 250, 0.25);
+
+  --highlight-focus: #fbbf24;
+  --highlight-focus-hover: #fcd34d;
+  --highlight-subtle: rgba(251, 191, 36, 0.1);
+  --highlight-border: rgba(251, 191, 36, 0.25);
+
+  --chart-baseline: #64748b;
+  --chart-baseline-light: #334155;
+  --chart-grid: rgba(255, 255, 255, 0.05);
+
+  --tag-empirical-bg: rgba(22, 101, 52, 0.2);
+  --tag-empirical-text: #4ade80;
+  --tag-empirical-border: rgba(74, 222, 128, 0.3);
+
+  --tag-inference-bg: rgba(107, 33, 168, 0.2);
+  --tag-inference-text: #c084fc;
+  --tag-inference-border: rgba(192, 132, 252, 0.3);
+
+  --tag-neutral-bg: #1e2530;
+  --tag-neutral-text: #9ca3af;
+  --tag-neutral-border: #2d3748;
+
+  --shadow-editorial: 0 1px 3px rgba(0, 0, 0, 0.3);
+}

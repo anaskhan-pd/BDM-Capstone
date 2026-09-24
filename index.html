@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyzing Seasonal Enrollment Trends | Ganga Computer Center — BDM Capstone Case Study</title>
+  <meta name="description" content="An empirical data science case study examining seasonal intake concentration, volume stability, and curriculum demand at Ganga Computer Center (Jaspur, Uttarakhand, India).">
+  
+  <!-- Web Fonts: Plus Jakarta Sans (Display Headings) + Inter (Analytical Sans) + JetBrains Mono (Technical Figures) + Newsreader (Editorial Accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/case-study.css">
+</head>
+<body>
+
+  <!-- Screen Reader Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to case study content</a>
+
+  <!-- Primary Masthead Navigation -->
+  <header class="site-nav">
+    <div class="container-dossier nav-inner">
+      <a href="#hero" class="nav-brand" aria-label="Anas Khan Portfolio Case Study">
+        <span class="nav-brand-name">Anas Khan</span>
+        <span class="nav-brand-sep" aria-hidden="true">/</span>
+        <span class="nav-brand-meta">Data Science Case Study</span>
+      </a>
+
+      <!-- Desktop Primary Nav Links -->
+      <nav class="nav-desktop-links" aria-label="Section Navigation">
+        <a href="#business-problem" class="nav-item-link">Problem</a>
+        <a href="#datasets" class="nav-item-link">Data</a>
+        <a href="#data-preparation" class="nav-item-link">Pipeline</a>
+        <a href="#exploratory-analysis" class="nav-item-link">Analysis</a>
+        <a href="#key-findings" class="nav-item-link">Findings</a>
+        <a href="#recommendations" class="nav-item-link">Recommendations</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle visual theme">
+          <svg class="theme-toggle-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+          </svg>
+          <span id="themeToggleLabel">Theme</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-expanded="false" aria-controls="mobileNavDrawer" aria-label="Toggle mobile menu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" hidden>
+      <div class="container-dossier mobile-drawer-inner">
+        <ul class="mobile-nav-list">
+          <li><a href="#hero" class="mobile-nav-link">Overview & Executive Metrics</a></li>
+          <li><a href="#business-problem" class="mobile-nav-link">§ 01 Operational Problem</a></li>
+          <li><a href="#datasets" class="mobile-nav-link">§ 02 Dual Registries</a></li>
+          <li><a href="#data-preparation" class="mobile-nav-link">§ 03 Data Preparation Pipeline</a></li>
+          <li><a href="#exploratory-analysis" class="mobile-nav-link">§ 04 Visual Exhibits & Figures</a></li>
+          <li><a href="#key-findings" class="mobile-nav-link">§ 05 Key Confirmed Findings</a></li>
+          <li><a href="#business-interpretation" class="mobile-nav-link">§ 06 Business Interpretation</a></li>
+          <li><a href="#recommendations" class="mobile-nav-link">§ 07 Strategic Recommendations</a></li>
+          <li><a href="#skills-reflection" class="mobile-nav-link">§ 08 Methodological Framework</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Editorial Table of Contents Bar -->
+    <nav class="toc-wrapper" aria-label="Case Study Sections">
+      <div class="container-dossier">
+        <ul class="toc-list">
+          <li><a href="#hero" class="toc-link active">Overview</a></li>
+          <li><a href="#business-problem" class="toc-link">§ 01 Problem</a></li>
+          <li><a href="#datasets" class="toc-link">§ 02 Datasets</a></li>
+          <li><a href="#data-preparation" class="toc-link">§ 03 Preparation</a></li>
+          <li><a href="#exploratory-analysis" class="toc-link">§ 04 Visual Analysis</a></li>
+          <li><a href="#key-findings" class="toc-link">§ 05 Findings</a></li>
+          <li><a href="#business-interpretation" class="toc-link">§ 06 Interpretation</a></li>
+          <li><a href="#recommendations" class="toc-link">§ 07 Recommendations</a></li>
+          <li><a href="#skills-reflection" class="toc-link">§ 08 Methodology</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Narrative Stream -->
+  <main id="main-content">
+
+    <!-- Case Study Dossier Masthead & Executive Summary -->
+    <section class="hero-section" id="hero">
+      <div class="container-dossier">
+        <div class="dossier-masthead">
+          <span class="dossier-badge">BDM Empirical Case Study</span>
+          <span>Archival Record: CAS-2024-GCC · Jaspur, Uttarakhand</span>
+          <span>Analyst: Anas Khan</span>
+        </div>
+
+        <h1 class="hero-title">Analyzing Seasonal Enrollment Trends in a Computer Coaching Institute</h1>
+        
+        <p class="hero-abstract">
+          An empirical evaluation of student intake concentration, longitudinal demand stability, and curriculum preferences at 
+          <strong>Ganga Computer Center</strong> in Jaspur, Uttarakhand, India. Grounded in primary operational registries 
+          spanning January 2023 through November 2024.
+        </p>
+
+        <!-- Technical Metadata Strip -->
+        <div class="dossier-meta-grid">
+          <div class="meta-entry">
+            <span class="meta-label">Target Organization</span>
+            <span class="meta-val">Ganga Computer Center</span>
+          </div>
+          <div class="meta-entry">
+            <span class="meta-label">Geographic Setting</span>
+            <span class="meta-val">Jaspur, Uttarakhand, India</span>
+          </div>
+          <div class="meta-entry">
+            <span class="meta-label">Observation Window</span>
+            <span class="meta-val">Jan 2023 – Nov 2024</span>
+          </div>
+          <div class="meta-entry">
+            <span class="meta-label">Curriculum / Program</span>
+            <span class="meta-val">Business Data Management</span>
+          </div>
+          <div class="meta-entry">
+            <span class="meta-label">Analytical Stack</span>
+            <span class="meta-val">Python, Pandas, EDA, Chart.js</span>
+          </div>
+        </div>
+
+        <!-- Executive Metrics Ledger (Strictly Verified Project Figures) -->
+        <div class="metrics-ledger">
+          <a href="#datasets" class="metric-cell" aria-label="Jump to dataset specification for 211 student enrollments">
+            <div class="metric-cell-label">
+              <span>Student Enrollments</span>
+              <span class="num-mono">[N]</span>
+            </div>
+            <div class="metric-cell-value">211</div>
+            <p class="metric-cell-desc">Total verified student admission records analyzed across Jan 2023 – Sep 2024.</p>
+            <span class="metric-cell-footnote">Primary Key: Standardized Student_ID <span class="metric-cell-arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a href="#datasets" class="metric-cell" aria-label="Jump to fee transaction dataset specifications">
+            <div class="metric-cell-label">
+              <span>Fee Transactions</span>
+              <span class="num-mono">[TX]</span>
+            </div>
+            <div class="metric-cell-value">343</div>
+            <p class="metric-cell-desc">Individual ledger payment receipts recorded through 15 November 2024.</p>
+            <span class="metric-cell-footnote">Foreign Key: Standardized Student_ID <span class="metric-cell-arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a href="#exploratory-analysis" class="metric-cell highlight" aria-label="Jump to Figure 1.0 for summer peak concentration">
+            <div class="metric-cell-label">
+              <span>Peak Concentration</span>
+              <span class="num-mono">[May–Jun]</span>
+            </div>
+            <div class="metric-cell-value">33.2%</div>
+            <p class="metric-cell-desc">One-third of all student admissions arrived during an 8-week summer window.</p>
+            <span class="metric-cell-footnote">70 of 211 students in 2 calendar months <span class="metric-cell-arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a href="#exploratory-analysis" class="metric-cell" aria-label="Jump to Figure 2.0 for year-over-year comparison">
+            <div class="metric-cell-label">
+              <span>YoY Intake Baseline</span>
+              <span class="num-mono">[Jan–Sep]</span>
+            </div>
+            <div class="metric-cell-value">89 vs 88</div>
+            <p class="metric-cell-desc">Jan–Sep 2023 vs Jan–Sep 2024 showing -1.12% intake baseline stability.</p>
+            <span class="metric-cell-footnote">Net longitudinal variance: -1 student <span class="metric-cell-arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 01. Context & Business Problem -->
+    <section class="case-section" id="business-problem">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 01</span> Operational Dilemma</span>
+              <h2 class="sidebar-title">The Seasonal Capacity Rhythms</h2>
+              <p class="sidebar-summary">
+                Small educational institutions operate under high fixed facility costs while facing non-uniform calendar demand.
+              </p>
+              
+              <div class="sidebar-data-callout">
+                <div class="sidebar-data-title">Operational Challenge</div>
+                <div class="sidebar-data-num">10 vs 2</div>
+                <p class="sidebar-data-text">
+                  66.8% of students spread across 10 off-peak months (~14/mo) versus 33.2% surging in just 2 summer months (~35/mo).
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              At Ganga Computer Center in Jaspur, Uttarakhand, student admissions do not follow an even, continuous flow. 
+              Historically, administrative intuition reported intense laboratory overcrowding during early summer, followed by 
+              prolonged months of subdued registration.
+            </p>
+
+            <p>
+              Ganga Computer Center delivers technical vocational training, office automation, and financial accounting courses 
+              to local matriculates, secondary graduates, and job aspirants in the surrounding region. Without quantified empirical 
+              data, management faced recurring planning bottlenecks:
+            </p>
+
+            <div class="operational-context-grid">
+              <div class="context-factor-card">
+                <span class="context-factor-label">Resource 01</span>
+                <h3 class="context-factor-title">Terminal & Lab Allocation</h3>
+                <p class="context-factor-desc">
+                  Physical workstations, software seating licenses, and backup power inverter capacity must satisfy peak surge load 
+                  without remaining idle during prolonged low-intake periods.
+                </p>
+              </div>
+
+              <div class="context-factor-card">
+                <span class="context-factor-label">Resource 02</span>
+                <h3 class="context-factor-title">Instructor Scheduling</h3>
+                <p class="context-factor-desc">
+                  Qualified vocational instructors cannot be rapidly hired or scaled down on short notice; faculty capacity 
+                  must be synchronized with reliable demand forecasts.
+                </p>
+              </div>
+
+              <div class="context-factor-card">
+                <span class="context-factor-label">Resource 03</span>
+                <h3 class="context-factor-title">Outreach Alignment</h3>
+                <p class="context-factor-desc">
+                  Marketing and promotional initiatives deployed during academic lull periods generate poor conversion 
+                  compared to campaigns synchronized with regional academic decision windows.
+                </p>
+              </div>
+            </div>
+
+            <div class="marginalia-box">
+              <strong>Objective of Investigation</strong>
+              <p>
+                Replace anecdotal administrative perception with measured empirical proof: quantify the exact seasonal concentration, 
+                assess year-over-year enrollment stability across identical periods, and determine specific course demand distribution.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 02. Datasets & Data Provenance -->
+    <section class="case-section" id="datasets">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 02</span> Data Foundation</span>
+              <h2 class="sidebar-title">The Dual Operational Registries</h2>
+              <p class="sidebar-summary">
+                Two separate business logs provide the foundation for relational integrity and cross-verification.
+              </p>
+
+              <div class="sidebar-data-callout">
+                <div class="sidebar-data-title">Relational Coverage</div>
+                <div class="sidebar-data-num">211 : 343</div>
+                <p class="sidebar-data-text">
+                  211 individual students linked relationally to 343 financial payment ledger entries.
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              The empirical analysis is based on two primary operational registries supplied directly by the institute's administrative office. 
+              Each registry represents authentic transactional records rather than synthetic exercise data.
+            </p>
+
+            <div class="provenance-ledger">
+              <!-- Registry 1 -->
+              <div class="provenance-block">
+                <div class="provenance-header">
+                  <span class="provenance-name">1. Student Enrollment Dataset</span>
+                  <span class="provenance-scope-tag">Primary Registration Table</span>
+                </div>
+                <div class="provenance-body">
+                  <div class="table-scroll-wrap">
+                    <table class="spec-table" aria-label="Student Enrollment Dataset Schema Specifications">
+                      <tbody>
+                        <tr>
+                          <th>Observation Window</th>
+                          <td>January 2023 – September 2024</td>
+                        </tr>
+                        <tr>
+                          <th>Total Verified Records</th>
+                          <td class="num-mono"><strong>211 unique student admissions</strong></td>
+                        </tr>
+                        <tr>
+                          <th>Data Granularity</th>
+                          <td>Individual Student Level (One row per admission)</td>
+                        </tr>
+                        <tr>
+                          <th>Primary Relational Key</th>
+                          <td><code class="num-mono">Standardized Student_ID</code></td>
+                        </tr>
+                        <tr>
+                          <th>Key Recorded Variables</th>
+                          <td><code>Student_ID</code>, <code>Enrollment_Date</code>, <code>Course_Name</code>, <code>Total_Fee</code></td>
+                        </tr>
+                        <tr>
+                          <th>Analytical Role</th>
+                          <td>Evaluating registration timelines, identifying intake seasonality, and calculating course concentration shares.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Registry 2 -->
+              <div class="provenance-block">
+                <div class="provenance-header">
+                  <span class="provenance-name">2. Fee Transaction Dataset</span>
+                  <span class="provenance-scope-tag">Financial Cash Flow Ledger</span>
+                </div>
+                <div class="provenance-body">
+                  <div class="table-scroll-wrap">
+                    <table class="spec-table" aria-label="Fee Transaction Dataset Schema Specifications">
+                      <tbody>
+                        <tr>
+                          <th>Observation Window</th>
+                          <td>January 2023 – 15 November 2024</td>
+                        </tr>
+                        <tr>
+                          <th>Total Verified Records</th>
+                          <td class="num-mono"><strong>343 individual payment transactions</strong></td>
+                        </tr>
+                        <tr>
+                          <th>Data Granularity</th>
+                          <td>Transaction Level (Multiple installment receipts per student)</td>
+                        </tr>
+                        <tr>
+                          <th>Foreign Relational Key</th>
+                          <td><code class="num-mono">Standardized Student_ID</code></td>
+                        </tr>
+                        <tr>
+                          <th>Key Recorded Variables</th>
+                          <td><code>Receipt_No</code>, <code>Student_ID</code>, <code>Transaction_Date</code>, <code>Fee_Amount</code>, <code>Balance_Due</code></td>
+                        </tr>
+                        <tr>
+                          <th>Analytical Role</th>
+                          <td>Validating active student tenure, confirming enrollment veracity, and analyzing multi-month fee collection cycles.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="marginalia-box">
+              <strong>Longitudinal Scope Alignment Note</strong>
+              <p>
+                The enrollment registry covers 211 students through September 2024. The fee ledger continues through 15 November 2024 
+                (343 records) due to scheduled monthly installment payments received from students enrolled earlier in the year. 
+                This multi-stage structure reflects standard vocational course duration (typically 3 to 6 months).
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 03. Data Preparation & Engineering -->
+    <section class="case-section" id="data-preparation">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 03</span> Data Engineering</span>
+              <h2 class="sidebar-title">Data Preparation Pipeline</h2>
+              <p class="sidebar-summary">
+                Raw administrative records contained formatting discrepancies, string currency artifacts, and category fragmentation.
+              </p>
+
+              <div class="sidebar-data-callout">
+                <div class="sidebar-data-title">Pipeline Verification</div>
+                <div class="sidebar-data-num">4 Steps</div>
+                <p class="sidebar-data-text">
+                  Systematic data hygiene pipeline executed prior to exploratory statistical modeling.
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              Real-world administrative records inherently reflect clerical irregularities. To preserve analytical validity, 
+              four sequential transformation steps were executed to clean and standardize the data before analysis.
+            </p>
+
+            <div class="prep-pipeline">
+              <!-- Step 1 -->
+              <div class="prep-step-card">
+                <div class="prep-step-header">
+                  <span class="prep-code-tag">PRE-01 · Relational Integrity</span>
+                  <span class="prep-target-var">Field: <code>Student_ID</code></span>
+                </div>
+                <h3 class="prep-title">Standardizing Student Identification Keys</h3>
+                <p class="prep-desc">
+                  Clerical records exhibited inconsistent casing, leading zero omissions, and accidental whitespace. 
+                  Identifiers across both tables were sanitized, trimmed, and cast to uppercase canonical strings to enable lossless primary/foreign key joins.
+                </p>
+                <div class="prep-code-container">
+                  <div class="prep-code-bar">
+                    <span class="prep-code-lang">Python 3 · Pandas</span>
+                    <button type="button" class="code-copy-btn" aria-label="Copy code for PRE-01">
+                      <svg class="copy-icon" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+                      <span class="copy-text">Copy</span>
+                    </button>
+                  </div>
+                  <pre class="prep-code-box"><code><span class="prep-code-comment"># Clean and standardize primary/foreign key across enrollment and fee tables</span>
+df_enroll['Student_ID'] = df_enroll['Student_ID'].astype(str).str.strip().str.upper()
+df_fees['Student_ID'] = df_fees['Student_ID'].astype(str).str.strip().str.upper()</code></pre>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="prep-step-card">
+                <div class="prep-step-header">
+                  <span class="prep-code-tag">PRE-02 · Temporal Normalization</span>
+                  <span class="prep-target-var">Fields: <code>Enrollment_Date, Transaction_Date</code></span>
+                </div>
+                <h3 class="prep-title">Normalizing Heterogeneous Date Formats</h3>
+                <p class="prep-desc">
+                  Timestamps were logged with mixed delimiters (<code>DD/MM/YYYY</code>, <code>DD-MM-YYYY</code>, text entries). 
+                  All date variables were parsed into ISO 8601 temporal series to ensure accurate chronological sequencing and monthly aggregations.
+                </p>
+                <div class="prep-code-container">
+                  <div class="prep-code-bar">
+                    <span class="prep-code-lang">Python 3 · Pandas</span>
+                    <button type="button" class="code-copy-btn" aria-label="Copy code for PRE-02">
+                      <svg class="copy-icon" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+                      <span class="copy-text">Copy</span>
+                    </button>
+                  </div>
+                  <pre class="prep-code-box"><code><span class="prep-code-comment"># Parse mixed string formats to strict datetime series for monthly bucketing</span>
+df_enroll['Enrollment_Date'] = pd.to_datetime(df_enroll['Enrollment_Date'], format='mixed', errors='coerce')
+df_enroll['Year_Month'] = df_enroll['Enrollment_Date'].dt.to_period('M')</code></pre>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="prep-step-card">
+                <div class="prep-step-header">
+                  <span class="prep-code-tag">PRE-03 · Type Casting</span>
+                  <span class="prep-target-var">Fields: <code>Fee_Amount, Balance_Due</code></span>
+                </div>
+                <h3 class="prep-title">Sanitizing Currency Strings into Numeric Values</h3>
+                <p class="prep-desc">
+                  Payment ledger figures contained currency marks (₹, INR), thousand-separator commas, and blank text placeholders. 
+                  Non-numeric characters were stripped via regular expressions and cast to numeric floating-point values.
+                </p>
+                <div class="prep-code-container">
+                  <div class="prep-code-bar">
+                    <span class="prep-code-lang">Python 3 · Pandas</span>
+                    <button type="button" class="code-copy-btn" aria-label="Copy code for PRE-03">
+                      <svg class="copy-icon" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+                      <span class="copy-text">Copy</span>
+                    </button>
+                  </div>
+                  <pre class="prep-code-box"><code><span class="prep-code-comment"># Strip non-numeric currency artifacts and cast to numeric float</span>
+df_fees['Fee_Amount'] = df_fees['Fee_Amount'].replace(r'[₹,INR\s]', '', regex=True).astype(float)
+df_fees['Balance_Due'] = pd.to_numeric(df_fees['Balance_Due'].replace(r'[₹,INR\s]', '', regex=True), errors='coerce').fillna(0.0)</code></pre>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="prep-step-card">
+                <div class="prep-step-header">
+                  <span class="prep-code-tag">PRE-04 · Categorical Unification</span>
+                  <span class="prep-target-var">Field: <code>Course_Name</code></span>
+                </div>
+                <h3 class="prep-title">Consolidating Fragmented Course Labels</h3>
+                <p class="prep-desc">
+                  Slight clerical variations—such as "MS Office", "Office Automation", "MS Word & Excel", and "Basic Computer Package"—artificially 
+                  fragmented foundational computer literacy. These labels were unified into a consistent category to isolate true program demand.
+                </p>
+                <div class="prep-code-container">
+                  <div class="prep-code-bar">
+                    <span class="prep-code-lang">Python 3 · Pandas</span>
+                    <button type="button" class="code-copy-btn" aria-label="Copy code for PRE-04">
+                      <svg class="copy-icon" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+                      <span class="copy-text">Copy</span>
+                    </button>
+                  </div>
+                  <pre class="prep-code-box"><code><span class="prep-code-comment"># Unify fragmented office automation variants into a consolidated category</span>
+office_synonyms = ['MS OFFICE', 'OFFICE AUTOMATION', 'MS WORD & EXCEL', 'COMPUTER BASICS']
+df_enroll['Course_Normalized'] = df_enroll['Course_Name'].apply(
+    lambda x: 'MS Office Suite' if any(s in str(x).upper() for s in office_synonyms) else str(x).strip()
+)</code></pre>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 04. Visual Exploratory Analysis -->
+    <section class="case-section" id="exploratory-analysis">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 04</span> Visual Evidence</span>
+              <h2 class="sidebar-title">Exploratory Analysis & Visual Exhibits</h2>
+              <p class="sidebar-summary">
+                Empirical investigation addressing intake concentration, annual volume stability, and curriculum specialization.
+              </p>
+
+              <div class="sidebar-data-callout">
+                <div class="sidebar-data-title">Verified Influx Share</div>
+                <div class="sidebar-data-num">33.2%</div>
+                <p class="sidebar-data-text">
+                  Exactly 70 of 211 total registrations arrived during May and June.
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              With cleaned registries established, the analysis evaluated three primary empirical questions: 
+              <em>What proportion of registrations occurs during the summer window?</em>, 
+              <em>Did overall student intake expand, contract, or remain stable across years?</em>, and 
+              <em>Which course curriculum drives the largest independent volume?</em>
+            </p>
+
+            <!-- Figure 1 -->
+            <div class="figure-container">
+              <div class="figure-header">
+                <span class="figure-number">Figure 1.0</span>
+                <h3 class="figure-title">Seasonal Intake Concentration: May–June Summer Surge</h3>
+                <p class="figure-hypothesis">
+                  Total student registration distribution comparing the 2-month summer peak window against the remaining 10 calendar months.
+                </p>
+              </div>
+
+              <div class="figure-canvas-wrapper">
+                <canvas id="peakConcentrationChart" aria-label="Donut chart illustrating that 33.2 percent of student enrollments occurred in May and June" role="img"></canvas>
+              </div>
+
+              <div class="figure-exhibit-wrap">
+                <div class="figure-table-title">Tabular Exhibit 1.1 · May–June Peak Intake Distribution</div>
+                <div class="table-scroll-wrap">
+                  <table class="figure-table" aria-label="May-June Seasonal Intake Distribution Data">
+                    <thead>
+                      <tr>
+                        <th>Intake Observation Window</th>
+                        <th class="num">Student Count</th>
+                        <th class="num">Percentage Share</th>
+                        <th class="num">Monthly Run Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>May – June (Summer Peak Window)</strong></td>
+                        <td class="num"><strong>70</strong></td>
+                        <td class="num"><strong>33.2%</strong></td>
+                        <td class="num">~35.0 students/mo</td>
+                      </tr>
+                      <tr>
+                        <td>Remaining 10 Calendar Months Combined</td>
+                        <td class="num">141</td>
+                        <td class="num">66.8%</td>
+                        <td class="num">~14.1 students/mo</td>
+                      </tr>
+                      <tr class="total-row">
+                        <td>Total Analyzed Registry (Jan 2023 – Sep 2024)</td>
+                        <td class="num">211</td>
+                        <td class="num">100.0%</td>
+                        <td class="num">—</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="figure-footer-note">
+                <span>Source: Verified Student Enrollment Registry (N = 211)</span>
+                <span>Observation: Intake velocity spikes 2.5× during the May–June summer vacation period</span>
+              </div>
+            </div>
+
+            <!-- Figure 2 -->
+            <div class="figure-container">
+              <div class="figure-header">
+                <span class="figure-number">Figure 2.0</span>
+                <h3 class="figure-title">Longitudinal Demand Stability: Jan–Sep Year-over-Year Cohort</h3>
+                <p class="figure-hypothesis">
+                  Direct cohort comparison across identical 9-month observation windows in 2023 and 2024.
+                </p>
+              </div>
+
+              <div class="figure-canvas-wrapper">
+                <canvas id="yoyComparisonChart" aria-label="Bar chart showing 89 enrollments in Jan-Sep 2023 versus 88 in Jan-Sep 2024" role="img"></canvas>
+              </div>
+
+              <div class="figure-exhibit-wrap">
+                <div class="figure-table-title">Tabular Exhibit 2.1 · Year-over-Year Registration Cohort Comparison</div>
+                <div class="table-scroll-wrap">
+                  <table class="figure-table" aria-label="Year over Year Cohort Intake Comparison">
+                    <thead>
+                      <tr>
+                        <th>Observation Window</th>
+                        <th class="num">Admissions</th>
+                        <th class="num">Variance vs. Prior Year</th>
+                        <th class="num">Percentage Change</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>January – September 2023 (Baseline Cohort)</td>
+                        <td class="num">89</td>
+                        <td class="num">—</td>
+                        <td class="num">Reference Baseline</td>
+                      </tr>
+                      <tr>
+                        <td>January – September 2024 (Comparison Cohort)</td>
+                        <td class="num">88</td>
+                        <td class="num">-1</td>
+                        <td class="num">-1.12%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="figure-footer-note">
+                <span>Note: Oct–Dec 2023 accounts for the remaining 34 students to complete the 211 total records</span>
+                <span>Finding: Baseline consumer demand was virtually identical year-over-year (Δ = -1 student)</span>
+              </div>
+            </div>
+
+            <!-- Figure 3 -->
+            <div class="figure-container">
+              <div class="figure-header">
+                <span class="figure-number">Figure 3.0</span>
+                <h3 class="figure-title">Curriculum Concentration: Tally Accounting Software Dominance</h3>
+                <p class="figure-hypothesis">
+                  Student enrollment distribution isolating Tally vocational software against all other programs combined.
+                </p>
+              </div>
+
+              <div class="figure-canvas-wrapper">
+                <canvas id="courseDemandChart" aria-label="Horizontal bar chart illustrating Tally accounting registrations of 44 students" role="img"></canvas>
+              </div>
+
+              <div class="figure-exhibit-wrap">
+                <div class="figure-table-title">Tabular Exhibit 3.1 · Course Category Concentration Breakdown</div>
+                <div class="table-scroll-wrap">
+                  <table class="figure-table" aria-label="Curriculum Breakdown Data">
+                    <thead>
+                      <tr>
+                        <th>Course Category / Focus</th>
+                        <th class="num">Enrollments</th>
+                        <th class="num">Share of Total</th>
+                        <th>Primary Target Demographic</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Tally (Vocational Accounting Software)</strong></td>
+                        <td class="num"><strong>44</strong></td>
+                        <td class="num"><strong>20.85%</strong></td>
+                        <td>Commerce students & local retail bookkeeping aspirants</td>
+                      </tr>
+                      <tr>
+                        <td>All Other Instructional Programs Combined</td>
+                        <td class="num">167</td>
+                        <td class="num">79.15%</td>
+                        <td>General digital literacy, office productivity, fundamentals</td>
+                      </tr>
+                      <tr class="total-row">
+                        <td>Total Students (Jan 2023 – Sep 2024)</td>
+                        <td class="num">211</td>
+                        <td class="num">100.0%</td>
+                        <td>Institute Student Registry</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="figure-footer-note">
+                <span>Empirical Fact: 1 in every 5 enrolled students registered specifically for Tally</span>
+                <span>Context: Remaining 167 students encompass consolidated MS Office and digital foundations</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 05. Key Confirmed Findings -->
+    <section class="case-section" id="key-findings">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 05</span> Quantitative Results</span>
+              <h2 class="sidebar-title">Key Confirmed Findings</h2>
+              <p class="sidebar-summary">
+                Summary of four verified statistical facts established through exploratory analysis of the cleaned registries.
+              </p>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              The quantitative investigation revealed four verified statistical realities regarding Ganga Computer Center’s operational profile. 
+              No figures are estimated or synthetic.
+            </p>
+
+            <div class="findings-matrix">
+              <!-- Finding 1 -->
+              <div class="finding-item focus">
+                <span class="finding-code">FINDING 01 · SEASONAL CONCENTRATION</span>
+                <div class="finding-num">33.2%</div>
+                <h3 class="finding-title">May–June Summer Peak Cluster</h3>
+                <p class="finding-desc">
+                  Exactly 70 out of 211 total student registrations were concentrated within May and June alone. 
+                  One-third of entire annual demand arrives inside a narrow 60-day intake window.
+                </p>
+                <div class="finding-provenance">Registry: 70 of 211 students · Pct: 33.18%</div>
+              </div>
+
+              <!-- Finding 2 -->
+              <div class="finding-item">
+                <span class="finding-code">FINDING 02 · LONGITUDINAL STABILITY</span>
+                <div class="finding-num">89 vs 88</div>
+                <h3 class="finding-title">Near-Zero Year-over-Year Delta</h3>
+                <p class="finding-desc">
+                  Evaluating identical 9-month intervals (Jan–Sep 2023 vs Jan–Sep 2024) demonstrates exceptional baseline stability: 
+                  89 admissions in 2023 versus 88 in 2024, representing an intake variance of just -1.12%.
+                </p>
+                <div class="finding-provenance">Cohort: Jan–Sep · Delta: -1 student (-1.12%)</div>
+              </div>
+
+              <!-- Finding 3 -->
+              <div class="finding-item">
+                <span class="finding-code">FINDING 03 · CURRICULUM CONCENTRATION</span>
+                <div class="finding-num">20.85%</div>
+                <h3 class="finding-title">Tally as Primary Independent Course</h3>
+                <p class="finding-desc">
+                  With 44 confirmed admissions out of 211 students, Tally accounting software represents more than one-fifth 
+                  of total enrollment, standing out as the single most requested technical curriculum.
+                </p>
+                <div class="finding-provenance">Count: 44 of 211 students · Single top course</div>
+              </div>
+
+              <!-- Finding 4 -->
+              <div class="finding-item">
+                <span class="finding-code">FINDING 04 · FINANCIAL CASH FLOW</span>
+                <div class="finding-num">343</div>
+                <h3 class="finding-title">Multi-Stage Fee Installment Model</h3>
+                <p class="finding-desc">
+                  343 distinct fee transactions recorded for 211 students verifies an active installment-based collection system, 
+                  with cash flows extending across consecutive months well after the summer enrollment peak.
+                </p>
+                <div class="finding-provenance">Ledger: 343 transactions through 15 Nov 2024</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 06. Business Interpretation: Data vs. Inference -->
+    <section class="case-section" id="business-interpretation">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 06</span> Analytical Rigor</span>
+              <h2 class="sidebar-title">Observed Data vs. Analytical Inference</h2>
+              <p class="sidebar-summary">
+                In scientific data analysis, empirical evidence must be explicitly separated from interpretive business hypotheses.
+              </p>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              A serious analytical case study maintains a clear epistemological boundary between what is 
+              <strong>directly recorded in the data</strong> and what represents <strong>reasoned contextual hypothesis</strong>.
+            </p>
+
+            <div class="comparative-ledger">
+              <!-- Column 1: Directly Observed Facts -->
+              <div class="ledger-column observed">
+                <div class="ledger-column-header">
+                  <span class="ledger-column-tag">Empirical Evidence</span>
+                  <h3 class="ledger-column-title">Directly Observed in Registries</h3>
+                </div>
+                <ul class="ledger-list">
+                  <li class="ledger-row">
+                    <strong>One-third of total intake concentrated in 2 months:</strong>
+                    33.2% of all student enrollments (70 of 211) occur strictly in May and June.
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Stable baseline annual volume:</strong>
+                    89 students in Jan–Sep 2023 versus 88 in Jan–Sep 2024 reflects almost zero net variance (-1.12%).
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Leading vocational subject:</strong>
+                    Tally accounting represents 44 enrollments (20.85%), leading all course categories.
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Recurring transaction velocity:</strong>
+                    343 payment receipts across 211 students demonstrates multi-stage milestone fee payments.
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Column 2: Contextual Business Inferences -->
+              <div class="ledger-column inference">
+                <div class="ledger-column-header">
+                  <span class="ledger-column-tag">Contextual Inferences</span>
+                  <h3 class="ledger-column-title">Operational Hypotheses</h3>
+                </div>
+                <ul class="ledger-list">
+                  <li class="ledger-row">
+                    <strong>Academic Calendar Alignment:</strong>
+                    May–June coincides with the end of secondary school (10th/12th) board exams and college summer holidays in Uttarakhand. Students utilize this break to acquire baseline computer qualifications.
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Organic Market Ceiling:</strong>
+                    The identical YoY counts (89 vs 88) indicate the center has a well-established local reputation, but is operating at an organic plateau without proactive external outreach.
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Commercial Employability Demand:</strong>
+                    Tally’s high share reflects local commercial needs in Jaspur's agricultural mandis, grain trades, and retail shops requiring computer-literate bookkeeping personnel.
+                  </li>
+                  <li class="ledger-row">
+                    <strong>Post-Peak Working Capital Management:</strong>
+                    While admission surges occur in June, installment receipts persist through November, requiring the institute to maintain liquidity during off-peak autumn admission valleys.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 07. Strategic Recommendations -->
+    <section class="case-section" id="recommendations">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 07</span> Strategic Guidance</span>
+              <h2 class="sidebar-title">Data-Derived Recommendations</h2>
+              <p class="sidebar-summary">
+                Operational proposals formulated directly from verified intake rhythms and curriculum demand.
+              </p>
+              
+              <div class="sidebar-data-callout">
+                <div class="sidebar-data-title">Notice of Scope</div>
+                <p class="sidebar-data-text" style="font-size: 0.775rem;">
+                  These recommendations represent strategic capstone proposals derived from empirical patterns; they are not measured historical operational interventions.
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              Rather than generic business advice, the following strategic initiatives address the concrete operational realities 
+              revealed by the data: 33.2% summer surge, high off-peak troughs, and strong Tally vocational demand.
+            </p>
+
+            <div class="action-matrix">
+              <!-- Action 1 -->
+              <div class="action-row">
+                <div class="action-code-col">
+                  <span class="action-code">REC-01</span>
+                  <span class="action-domain-badge">Capacity Planning</span>
+                </div>
+                <div class="action-detail-col">
+                  <h4>Proactive Summer Lab Shift Staggering</h4>
+                  <p>
+                    Rather than reacting to crowding when enrollments surge in May, the institute should establish staggered morning, afternoon, 
+                    and evening computer lab shifts by early April. This planned lab rotation absorbs the anticipated 70-student summer intake without degrading terminal access or purchasing redundant hardware.
+                  </p>
+                </div>
+                <div class="action-provenance-col">
+                  <strong>Data Basis</strong>
+                  33.2% of annual demand arrives in May–June (~35 students/mo vs off-peak ~14/mo).
+                </div>
+              </div>
+
+              <!-- Action 2 -->
+              <div class="action-row">
+                <div class="action-code-col">
+                  <span class="action-code">REC-02</span>
+                  <span class="action-domain-badge">Curriculum Focus</span>
+                </div>
+                <div class="action-detail-col">
+                  <h4>Vocational Tally Pathway Bundling</h4>
+                  <p>
+                    Leverage Tally's proven demand by introducing modular specialized extensions (e.g., Tally + GST Compliance + Excel Financial Modeling) 
+                    scheduled right at the start of summer vacation. This deepens practical training while maximizing tuition value per enrolled student.
+                  </p>
+                </div>
+                <div class="action-provenance-col">
+                  <strong>Data Basis</strong>
+                  Tally accounts for 44 of 211 students (20.85%), proving consistent commercial interest.
+                </div>
+              </div>
+
+              <!-- Action 3 -->
+              <div class="action-row">
+                <div class="action-code-col">
+                  <span class="action-code">REC-03</span>
+                  <span class="action-domain-badge">Intake Smoothing</span>
+                </div>
+                <div class="action-detail-col">
+                  <h4>Off-Peak Intake Smoothing Campaigns</h4>
+                  <p>
+                    To mitigate the pronounced enrollment valley across the remaining 10 months (which account for 66.8% of admissions across a long timeframe), 
+                    introduce evening and weekend digital certification programs targeted at working adults and collegiate learners who cannot attend during standard school break cycles.
+                  </p>
+                </div>
+                <div class="action-provenance-col">
+                  <strong>Data Basis</strong>
+                  Off-peak months average only ~14.1 admissions/month, creating surplus workstation capacity.
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 08. Methodological Framework & Analytical Skills -->
+    <section class="case-section" id="skills-reflection">
+      <div class="container-editorial">
+        <div class="editorial-grid">
+          <aside class="editorial-sidebar">
+            <div class="editorial-sidebar-sticky">
+              <span class="section-eyebrow"><span class="section-number">§ 08</span> Technical Rigor</span>
+              <h2 class="sidebar-title">Methodological Framework</h2>
+              <p class="sidebar-summary">
+                Applied analytics competencies demonstrated in processing authentic small-enterprise registries.
+              </p>
+            </div>
+          </aside>
+
+          <article class="editorial-main">
+            <p class="lead">
+              Executing this case study required transitioning beyond sanitized textbook exercises to address the genuine clerical 
+              realities of authentic business records.
+            </p>
+
+            <div class="competencies-ledger">
+              <div class="competency-item">
+                <div class="competency-index">01 · DATA WRANGLING</div>
+                <h4>Data Hygiene & Cleansing</h4>
+                <p>
+                  Resolved inconsistent casing, sanitized whitespace, parsed heterogeneous date strings into ISO 8601 timestamps, stripped currency markers, and consolidated fragmented category labels.
+                </p>
+              </div>
+
+              <div class="competency-item">
+                <div class="competency-index">02 · EXPLORATORY MODELING</div>
+                <h4>Longitudinal Time-Series Cohorts</h4>
+                <p>
+                  Engineered temporal aggregations, computed seasonal concentration shares, and conducted year-over-year 9-month comparative cohort evaluations to assess intake stability.
+                </p>
+              </div>
+
+              <div class="competency-item">
+                <div class="competency-index">03 · DATA VISUALIZATION</div>
+                <h4>Information Visualization Design</h4>
+                <p>
+                  Designed responsive, accessible Chart.js visual exhibits synchronized with a restrained editorial palette, accessible fallback data tables, and dynamic theme switching.
+                </p>
+              </div>
+
+              <div class="competency-item">
+                <div class="competency-index">04 · BUSINESS TRANSLATION</div>
+                <h4>Executive Decision Support</h4>
+                <p>
+                  Translated quantitative distributions into actionable operational proposals for laboratory capacity management and curriculum scheduling, maintaining strict academic truth.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Editorial Site Footer -->
+  <footer class="site-footer">
+    <div class="container-dossier">
+      <div class="footer-grid">
+        <div class="footer-dossier">
+          <h4>About this Capstone Project</h4>
+          <p>
+            This empirical case study was authored as part of the Business Data Management (BDM) curriculum. 
+            All statistics, counts, and findings are strictly grounded in the verified operational records of 
+            <strong>Ganga Computer Center</strong> (Jaspur, Uttarakhand, India).
+          </p>
+          <p class="num-mono" style="font-size: 0.75rem; color: var(--text-faint);">
+            Study ID: BDM-CAP-GCC-2024 · Cohort: 2023–2024 · Registry N=211
+          </p>
+        </div>
+
+        <div>
+          <span class="footer-col-title">Case Study Sections</span>
+          <ul class="footer-links">
+            <li><a href="#hero">Executive Summary & Metrics</a></li>
+            <li><a href="#business-problem">Operational Problem</a></li>
+            <li><a href="#datasets">Dual Operational Registries</a></li>
+            <li><a href="#data-preparation">Data Hygiene Pipeline</a></li>
+            <li><a href="#exploratory-analysis">Visual Exploratory Exhibits</a></li>
+            <li><a href="#key-findings">Key Confirmed Findings</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <span class="footer-col-title">Analyst Portfolio</span>
+          <ul class="footer-links">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub Repository [Placeholder]</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn Profile [Placeholder]</a></li>
+            <li><a href="mailto:analyst@example.com">Contact Email [Placeholder]</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-colophon">
+        <span>&copy; 2024–2026 Anas Khan · Business Data Management Capstone Project</span>
+        <span>Ganga Computer Center · Jaspur, Uttarakhand, India</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Chart.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Verified Project Data Store -->
+  <script src="assets/data/project-data.js"></script>
+  <!-- Theme Management -->
+  <script src="js/theme.js"></script>
+  <!-- Chart Visualizations Controller -->
+  <script src="js/charts.js"></script>
+  <!-- Interaction & Navigation Controller -->
+  <script src="js/main.js"></script>
+</body>
+</html>

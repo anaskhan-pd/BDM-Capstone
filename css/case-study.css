@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Case Study Editorial Narrative & Specific Exhibit Styling
+   ========================================================================== */
+
+/* Editorial Section Intro */
+.section-intro-block {
+  margin-bottom: var(--space-xl);
+}
+
+.section-summary-lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2vw, 1.35rem);
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+/* Analytical Annotation / Margin Box */
+.marginalia-box {
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-surface);
+  border-left: 2px solid var(--accent-primary);
+  border-top: 1px solid var(--border-rule);
+  border-right: 1px solid var(--border-rule);
+  border-bottom: 1px solid var(--border-rule);
+  border-radius: var(--radius-xs);
+  margin: var(--space-lg) 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.marginalia-box strong {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-primary);
+  display: block;
+  margin-bottom: var(--space-2xs);
+}
+
+.marginalia-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* Operational Context Grid */
+.operational-context-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0;
+}
+
+@media (min-width: 680px) {
+  .operational-context-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.context-factor-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-rule);
+  border-radius: var(--radius-xs);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.context-factor-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-primary);
+  margin-bottom: var(--space-2xs);
+}
+
+.context-factor-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.context-factor-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* Print Optimization */
+@media print {
+  .site-nav,
+  .toc-wrapper,
+  .theme-toggle-btn,
+  .skip-link {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .case-section {
+    padding: 24pt 0 !important;
+    page-break-inside: auto;
+    border-bottom: 1pt solid #ccc !important;
+  }
+
+  .figure-container,
+  .provenance-block,
+  .action-row,
+  .finding-item {
+    page-break-inside: avoid;
+    border: 1pt solid #ddd !important;
+    box-shadow: none !important;
+  }
+
+  .editorial-grid {
+    display: block !important;
+  }
+
+  .editorial-sidebar {
+    margin-bottom: 18pt !important;
+  }
+}
